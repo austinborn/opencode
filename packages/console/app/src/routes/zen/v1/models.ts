@@ -4,7 +4,7 @@ import { and, Database, eq, isNull } from "@opencode-ai/console-core/drizzle/ind
 import { KeyTable } from "@opencode-ai/console-core/schema/key.sql.js"
 import { WorkspaceTable } from "@opencode-ai/console-core/schema/workspace.sql.js"
 import { ModelTable } from "@opencode-ai/console-core/schema/model.sql.js"
-import { buildOptionsResponse, buildModelsResponse } from "~/routes/zen/util/modelsHandler"
+import { buildOptionsResponse, buildModelsResponse, withCors } from "~/routes/zen/util/modelsHandler"
 import { inferenceUnavailable, proxyInference } from "~/lib/inference-proxy"
 
 export async function OPTIONS(_input: APIEvent) {
@@ -15,7 +15,7 @@ export async function GET(input: APIEvent) {
   const apiKey = input.request.headers.get("authorization")?.split(" ")[1]
   if (apiKey && apiKey !== "public") {
     const response = await proxyInference(input.request).catch(inferenceUnavailable)
-    if (response) return response
+    if (response) return withCors(response)
   }
 
   const disabledModels = await (() => {
@@ -38,5 +38,5 @@ export async function GET(input: APIEvent) {
     .filter((id) => !id.endsWith(":global"))
     .filter((id) => !disabledModels.includes(id))
 
-  return buildModelsResponse(models)
+  return buildModelsResponse(models).then(withCors)
 }

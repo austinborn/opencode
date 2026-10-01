@@ -1,6 +1,11 @@
 import type { APIEvent } from "@solidjs/start/server"
 import { handler } from "~/routes/zen/util/handler"
+import { buildOptionsResponse, withCors } from "~/routes/zen/util/modelsHandler"
 import { parseOpenAiVariant } from "~/routes/zen/util/variant"
+
+export async function OPTIONS(_input: APIEvent) {
+  return buildOptionsResponse()
+}
 
 export function POST(input: APIEvent) {
   return handler(input, {
@@ -10,5 +15,5 @@ export function POST(input: APIEvent) {
     parseModel: (url: string, body: any) => body.model,
     parseVariant: (url: string, body: any) => parseOpenAiVariant(body),
     parseIsStream: (url: string, body: any) => !!body.stream,
-  })
+  }).then(withCors)
 }

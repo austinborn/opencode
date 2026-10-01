@@ -7,8 +7,17 @@ import { WorkspaceTable } from "@opencode-ai/console-core/schema/workspace.sql.j
 import { LiteData } from "@opencode-ai/console-core/lite.js"
 import { Subscription } from "@opencode-ai/console-core/subscription.js"
 import { inferenceUnavailable, proxyInference } from "~/lib/inference-proxy"
+import { buildOptionsResponse, withCors } from "~/routes/zen/util/modelsHandler"
+
+export async function OPTIONS(_input: APIEvent) {
+  return buildOptionsResponse()
+}
 
 export async function GET(input: APIEvent) {
+  return withCors(await usage(input))
+}
+
+async function usage(input: APIEvent) {
   const response = await proxyInference(input.request).catch(inferenceUnavailable)
   if (response) return response
   const apiKey = input.request.headers.get("authorization")?.match(/^Bearer (\S+)$/)?.[1]
