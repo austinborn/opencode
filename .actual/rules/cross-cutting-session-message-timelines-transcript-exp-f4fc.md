@@ -5,15 +5,17 @@ These rules are ALWAYS ACTIVE for all files matching the configured scope across
 ### Rules
 
 - **R-ORD-001** MUST: Session message timelines, transcript exports, and sync hydration reducers MUST order messages deterministically by persistent creation timestamp rather than array insertion sequence.
-- **R-ORD-002** MUST: Incorporate a secondary deterministic tie-breaker (such as unique message ID) when creation timestamps are equal to prevent non-deterministic sorting order across clients.
+- **R-ORD-002** MUST: Incorporate a secondary deterministic tie-breaker (such as unique message ID) when creation timestamps are equal to prevent non-deterministic sorting order.
 
 ### Verify
 
 ```bash
-# Run the project's test suite for session synchronization, timeline aggregation, and revert calculation
+# Discover and run the project's test suite for session synchronization, timeline aggregation, and revert calculation
 npx jest --testNamePattern="session|timeline|revert|sync"
+
 # Run repository linter and type-checker across packages
-npx turbo run lint typecheck
+npm run lint
+npm run typecheck
 ```
 
 **Accept when:**
@@ -21,5 +23,5 @@ npx turbo run lint typecheck
 - Transcript exports and revert boundary calculations produce deterministic outputs matching creation timestamp ordering across all packages.
 
 <enforcement>
-Claude Code MUST NOT skip or defer verification. Automated unit and integration test suites validating out-of-order message hydration and timeline sorting must pass successfully.
+Claude Code MUST NOT skip or defer verification. All sync hydration reducers, transcript generators, and timeline model components must be strictly verified against out-of-order message ingestion regressions.
 </enforcement>
