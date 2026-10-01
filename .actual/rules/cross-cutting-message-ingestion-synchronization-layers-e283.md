@@ -1,6 +1,6 @@
 # Standardize Chronological Ordering for Session Message Ingestion and Timelines: Message Ingestion Synchronization Layers Not Assume
 
-These rules are ALWAYS ACTIVE for all session message ingestion, timeline aggregation, sync hydration reducers, transcript exports, and history revert calculations across packages/app, packages/tui, packages/opencode, and packages/web.
+These rules are ALWAYS ACTIVE for all session message ingestion, timeline rendering, sync hydration reducers, transcript exports, and history revert calculations across packages/app, packages/tui, packages/opencode, and packages/web.
 
 ### Rules
 
@@ -9,16 +9,19 @@ These rules are ALWAYS ACTIVE for all session message ingestion, timeline aggreg
 ### Verify
 
 ```bash
-# Run test suite for session synchronization, timeline aggregation, and revert calculation
-npx turbo test --filter=app --filter=tui --filter=opencode --filter=web
-# Run linter and type-checker across packages
-npx turbo check
+# Discover and run the project's test suite for session synchronization, timeline aggregation, and revert calculation
+npx jest --testPathPattern="session|sync|timeline|revert"
+
+# Run the repository linter and type-checker across packages
+npm run lint
+npm run typecheck
 ```
 
 **Accept when:**
 - Sync reducers and timeline views sort messages strictly by creation timestamp even when supplied out-of-order test events.
 - Transcript exports and revert boundary calculations produce deterministic outputs matching creation timestamp ordering across all packages.
+- A secondary deterministic tie-breaker (such as unique message ID) is incorporated when creation timestamps are equal.
 
 <enforcement>
-Claude Code MUST NOT skip or defer verification.
+Claude Code MUST NOT skip or defer verification. Pull requests introducing array-append ordering or unsorted ingestion boundaries will fail automated tests or code review.
 </enforcement>

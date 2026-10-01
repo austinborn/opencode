@@ -78,7 +78,7 @@ The repository lock or resolution artifact is authoritative. A manifest range or
 
 | You're editing | Topic prefix |
 |---|---|
-| `packages/**/*` | `cross-cutting-` _(3 ADRs)_ |
+| `infra/**/*` + `packages/**/*`<br>`packages/**/*` | `cross-cutting-` _(10 ADRs)_ |
 <!-- actual-ai:adr-governance:end -->
 
 - To regenerate the legacy JavaScript SDK, run `./packages/sdk/js/script/build.ts`.

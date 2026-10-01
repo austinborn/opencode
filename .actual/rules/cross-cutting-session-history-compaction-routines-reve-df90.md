@@ -10,7 +10,9 @@ These rules are ALWAYS ACTIVE for all files matching the configured scope.
 
 ```bash
 # Discover and run the project's test suite for session synchronization, timeline aggregation, and revert calculation
-# Discover and run the repository linter and type-checker across packages/app, packages/tui, packages/opencode, and packages/web.
+npx jest packages/app packages/tui packages/opencode packages/web
+# Run repository linter and type-checker
+npx turbo run lint type-check
 ```
 
 **Accept when:**
