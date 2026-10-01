@@ -75,8 +75,11 @@ export default function Share(props: {
     },
     messages: {},
   })
+  // Tie-break by code unit order to match storage's SQLite BINARY collation
   const messages = createMemo(() =>
-    Object.values(store.messages).toSorted((a, b) => a.time.created - b.time.created || a.id.localeCompare(b.id)),
+    Object.values(store.messages).toSorted(
+      (a, b) => a.time.created - b.time.created || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+    ),
   )
   const [connectionStatus, setConnectionStatus] = createSignal<[Status, string?]>(["disconnected"])
 

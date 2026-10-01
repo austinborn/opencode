@@ -106,7 +106,9 @@ const layer = Layer.effect(
       const index = msgs.findIndex((msg) => msg.info.id === messageID)
       const target = index < 0 ? undefined : msgs[index]
       const remove = index < 0 ? [] : msgs.slice(index + (session.revert.partID ? 1 : 0))
-      for (const msg of remove) {
+      // Delete newest-first so the revert boundary survives until the end. An interrupted cleanup then
+      // leaves the boundary in place and the next cleanup resumes instead of clearing the marker.
+      for (const msg of remove.toReversed()) {
         yield* sessions.removeMessage({ sessionID, messageID: msg.info.id })
       }
       if (session.revert.partID && target) {
@@ -115,7 +117,7 @@ const layer = Layer.effect(
         if (idx >= 0) {
           const removeParts = target.parts.slice(idx)
           target.parts = target.parts.slice(0, idx)
-          for (const part of removeParts) {
+          for (const part of removeParts.toReversed()) {
             yield* sessions.removePart({ sessionID, messageID: target.info.id, partID: part.id })
           }
         }

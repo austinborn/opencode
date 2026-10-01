@@ -51,8 +51,10 @@ function search<T>(items: T[], target: string, key: (item: T) => string) {
   return { found: false, index: left }
 }
 
+// Tie-break by code unit order to match SQLite BINARY collation in storage; localeCompare can disagree
+// with it and returns 0 for distinct canonically equivalent ids.
 function compareMessage(a: Message, b: Message) {
-  return a.time.created - b.time.created || a.id.localeCompare(b.id)
+  return a.time.created - b.time.created || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
 }
 
 const messageKey = (message: Message) => message.time.created + message.id

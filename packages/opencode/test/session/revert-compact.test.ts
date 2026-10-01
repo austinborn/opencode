@@ -472,6 +472,74 @@ describe("revert + compact workflow", () => {
   )
 
   it.live(
+    "cleanup resumes after an interruption that removed the newest reverted messages",
+    provideTmpdirInstance(
+      (dir) =>
+        Effect.gen(function* () {
+          const session = yield* Session.Service
+          const revert = yield* SessionRevert.Service
+
+          const info = yield* session.create({})
+          const sid = info.id
+
+          const u1 = yield* user(sid)
+          yield* text(sid, u1.id, "kept")
+          const u2 = yield* user(sid)
+          yield* text(sid, u2.id, "reverted question")
+          const a2 = yield* assistant(sid, u2.id, dir)
+          yield* text(sid, a2.id, "reverted answer")
+
+          yield* session.setRevert({
+            sessionID: sid,
+            revert: { messageID: u2.id },
+            summary: { additions: 0, deletions: 0, files: 0 },
+          })
+
+          // Simulate a cleanup interrupted after its first newest-first removal.
+          yield* session.removeMessage({ sessionID: sid, messageID: a2.id })
+          yield* revert.cleanup(yield* session.get(sid))
+
+          const msgs = yield* session.messages({ sessionID: sid })
+          expect(msgs.map((m) => m.info.id)).toEqual([u1.id])
+          expect((yield* session.get(sid)).revert).toBeUndefined()
+        }),
+      { git: true },
+    ),
+  )
+
+  it.live(
+    "cleanup with partID resumes after an interruption that removed the newest parts",
+    provideTmpdirInstance(
+      () =>
+        Effect.gen(function* () {
+          const session = yield* Session.Service
+          const revert = yield* SessionRevert.Service
+
+          const info = yield* session.create({})
+          const sid = info.id
+
+          const u1 = yield* user(sid)
+          const p1 = yield* text(sid, u1.id, "first part")
+          const p2 = yield* tool(sid, u1.id)
+          const p3 = yield* text(sid, u1.id, "third part")
+
+          yield* session.setRevert({
+            sessionID: sid,
+            revert: { messageID: u1.id, partID: p2.id },
+            summary: { additions: 0, deletions: 0, files: 0 },
+          })
+
+          yield* session.removePart({ sessionID: sid, messageID: u1.id, partID: p3.id })
+          yield* revert.cleanup(yield* session.get(sid))
+
+          const msgs = yield* session.messages({ sessionID: sid })
+          expect(msgs[0].parts.map((part) => part.id)).toEqual([p1.id])
+        }),
+      { git: true },
+    ),
+  )
+
+  it.live(
     "cleanup is a no-op when session has no revert state",
     provideTmpdirInstance(
       () =>
