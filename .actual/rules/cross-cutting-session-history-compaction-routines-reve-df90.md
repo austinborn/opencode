@@ -4,7 +4,7 @@ These rules are ALWAYS ACTIVE for all files matching the configured scope.
 
 ### Rules
 
-- **R-CHRON-001** MUST: Session history compaction routines and revert boundary calculations MUST determine message sequence and cutoffs strictly by persistent creation timestamps.
+- **R-ORD-001** MUST: Session history compaction routines and revert boundary calculations MUST determine message sequence and cutoffs strictly by persistent creation timestamps.
 
 ### Verify
 
@@ -12,7 +12,7 @@ These rules are ALWAYS ACTIVE for all files matching the configured scope.
 # Discover and run the project's test suite for session synchronization, timeline aggregation, and revert calculation
 npx jest packages/app packages/tui packages/opencode packages/web
 # Run repository linter and type-checker
-npx turbo run lint type-check
+npx turbo run lint typecheck
 ```
 
 **Accept when:**

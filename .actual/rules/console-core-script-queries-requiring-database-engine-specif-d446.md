@@ -1,0 +1,23 @@
+# Drizzle ORM for Transactional Data Access via Database.use: Queries Requiring Database Engine Specific Operations
+
+These rules are ALWAYS ACTIVE for all operational scripts, batch processing tasks, and backend services performing relational database queries or mutations.
+
+### Rules
+
+- **R-DRIZZLE-001** MAY: Queries requiring database engine specific operations MAY utilize the sql template tag helper provided by Drizzle ORM when standard query builder expressions are insufficient.
+
+### Verify
+
+```bash
+# Discover and run project static analysis and typecheck suites from the repository manifest
+# Discover and execute the database test suite to verify transaction and query behaviors
+```
+
+**Accept when:**
+- All relational database interactions execute inside the Database.use transaction boundary without establishing unmanaged connections.
+- All database queries and mutations compile successfully against the defined schema models without static type errors.
+- Repository verification and test suites pass without database connection leaks or query syntax errors.
+
+<enforcement>
+Claude Code MUST NOT skip or defer verification. All pull requests modifying or adding operational scripts are verified by continuous integration static analysis, type verification suites, and peer code review.
+</enforcement>
