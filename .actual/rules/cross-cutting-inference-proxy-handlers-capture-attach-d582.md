@@ -1,6 +1,6 @@
 # Centralized Console Inference Proxy Seam: Inference Proxy Handlers Capture Attach Billing
 
-These rules are ALWAYS ACTIVE for all packages/console/app/src/lib/inference-proxy.ts, packages/console/app/src/routes/zen/**, and infra/console.ts files.
+These rules are ALWAYS ACTIVE for packages/console/app/src/lib/inference-proxy.ts, packages/console/app/src/routes/zen/**, and infra/console.ts.
 
 ### Rules
 
@@ -10,7 +10,8 @@ These rules are ALWAYS ACTIVE for all packages/console/app/src/lib/inference-pro
 
 ```bash
 # Discover and execute tests covering inference proxy routing, header forwarding, and billing tracking.
-npm test -- packages/console/app/src/lib/inference-proxy.ts
+npm test -- packages/console/app/src/lib/inference-proxy.ts packages/console/app/src/routes/zen/
+
 # Run static analysis checks across console routes to ensure no unproxied external provider calls exist.
 npm run lint
 ```
@@ -21,5 +22,5 @@ npm run lint
 - Unit and integration tests for proxy handlers and routes pass cleanly.
 
 <enforcement>
-Claude Code MUST NOT skip or defer verification.
+Claude Code MUST NOT skip or defer verification. All outgoing AI model requests must pass through the inference proxy seam with proper billing attribution and headers.
 </enforcement>

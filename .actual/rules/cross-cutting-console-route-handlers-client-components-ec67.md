@@ -1,18 +1,19 @@
 # Centralized Console Inference Proxy Seam: Console Route Handlers Client Components Not
 
-These rules are ALWAYS ACTIVE for console route handlers, client components, and inference proxy configurations.
+These rules are ALWAYS ACTIVE for console route handlers and client components interacting with external AI inference providers and Zen endpoints.
 
 ### Rules
 
-- **R-INF-001** MUST_NOT: Console route handlers and client components MUST NOT maintain direct credentials or unproxied network connections to external AI inference providers.
+- **R-CIN-001** MUST_NOT: Console route handlers and client components MUST NOT maintain direct credentials or unproxied network connections to external AI inference providers.
 
 ### Verify
 
 ```bash
 # Discover and execute tests covering inference proxy routing, header forwarding, and billing tracking.
 npm test -- packages/console
+
 # Discover and run static analysis checks across console routes to ensure no unproxied external provider calls exist.
-npm run lint -- packages/console
+npm run lint
 ```
 
 **Accept when:**

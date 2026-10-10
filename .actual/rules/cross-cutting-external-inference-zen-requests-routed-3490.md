@@ -4,16 +4,15 @@ These rules are ALWAYS ACTIVE for external inference and Zen requests within Con
 
 ### Rules
 
-- **R-INF-001** MUST: External inference and Zen requests MUST be routed through the authenticated inference proxy boundary rather than invoking upstream AI provider APIs directly.
+- **R-INF-001** MUST: External inference and Zen requests MUST be routed through the authenticated inference proxy boundary (`inference-proxy.ts`) rather than invoking upstream AI provider APIs directly.
 
 ### Verify
 
 ```bash
 # Discover and execute tests covering inference proxy routing, header forwarding, and billing tracking.
-npm test -- packages/console
+npm test -- packages/console/app/src/lib/inference-proxy.ts packages/console/app/src/routes/zen/
 
 # Discover and run static analysis checks across console routes to ensure no unproxied external provider calls exist.
-npm run lint
 ```
 
 **Accept when:**

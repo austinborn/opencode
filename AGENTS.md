@@ -78,7 +78,38 @@ The repository lock or resolution artifact is authoritative. A manifest range or
 
 | You're editing | Topic prefix |
 |---|---|
-| `infra/**/*` + `packages/**/*`<br>`packages/**/*` | `cross-cutting-` _(10 ADRs)_ |
+| `packages/app/src/**`<br>`packages/app/**` | `app-` _(116 ADRs)_ |
+| `infra/**/*` + `packages/**/*`<br>`packages/**/*`<br>`packages/**`<br>`**/*` | `cross-cutting-` _(67 ADRs)_ |
+| `packages/core/src/**` | `core-` _(38 ADRs)_ |
+| `packages/app/src/components/**` | `app-components-` _(37 ADRs)_ |
+| `.opencode/tool/**` | `opencode-tool-` _(24 ADRs)_ |
+| `packages/console/app/src/routes/bench/**`<br>`packages/console/app/src/routes/**` | `console-app-routes-` _(23 ADRs)_ |
+| `packages/console/app/src/**` | `console-app-` _(22 ADRs)_ |
+| `packages/opencode/src/**` | `opencode-` _(22 ADRs)_ |
+| `packages/app/e2e/performance/**` | `app-e2e-performance-` _(21 ADRs)_ |
+| `packages/app/e2e/utils/visual-stability/**` | `app-e2e-utils-` _(18 ADRs)_ |
+| `infra/**` | `infra-` _(14 ADRs)_ |
+| `github/**` | `github-` _(13 ADRs)_ |
+| `packages/codemode/src/openapi/**` | `codemode-openapi-` _(12 ADRs)_ |
+| `packages/console/core/script/**` | `console-core-script-` _(11 ADRs)_ |
+| `packages/core/src/github-copilot/**` | `core-github-copilot-` _(11 ADRs)_ |
+| `.opencode/plugins/**` | `opencode-plugins-` _(6 ADRs)_ |
+| `packages/tui/src/prompt/**` | `tui-prompt-` _(6 ADRs)_ |
+| `packages/opencode/src/server/**` | `opencode-server-` _(6 ADRs)_ |
+| `packages/console/**` | `console-` _(6 ADRs)_ |
+| `packages/opencode/src/cli/cmd/**` | `opencode-cli-cmd-` _(6 ADRs)_ |
+| `packages/app/src/pages/**` | `app-pages-` _(5 ADRs)_ |
+| `packages/codemode/src/**` | `codemode-` _(5 ADRs)_ |
+| `packages/cli/**` | `cli-` _(5 ADRs)_ |
+| `packages/cli/src/commands/handlers/**` | `cli-commands-handlers-` _(5 ADRs)_ |
+| `packages/app/src/pages/session/v2/**` | `app-pages-session-` _(5 ADRs)_ |
+| `packages/codemode/src/stdlib/**` | `codemode-stdlib-` _(5 ADRs)_ |
+| `packages/app/src/components/prompt-input/**` | `app-components-prompt-input-` _(5 ADRs)_ |
+| `artifacts/glm52-rise-video/src/**` | `artifacts-glm52-rise-video-` _(5 ADRs)_ |
+| `packages/web/src/components/share/**` | `web-components-share-` _(5 ADRs)_ |
+| `packages/opencode/src/config/**` | `opencode-config-` _(5 ADRs)_ |
+| `packages/core/src/plugin/**` | `core-plugin-` _(5 ADRs)_ |
+| `packages/cli/src/services/**` | `cli-services-` _(4 ADRs)_ |
 <!-- actual-ai:adr-governance:end -->
 
 - To regenerate the legacy JavaScript SDK, run `./packages/sdk/js/script/build.ts`.
